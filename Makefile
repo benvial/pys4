@@ -133,7 +133,7 @@ remote:
 	@git add -A
 	@read -p "Enter commit message: " MSG; \
 	git commit -a -m "$$MSG"
-	@git push origin master
+	@git push origin main
 
 ## Format and push to remote
 save: style remote
