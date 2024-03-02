@@ -3,9 +3,8 @@
 # Author: Benjamin Vial
 # License: GPLv3
 
-import os
+
 import subprocess
-import sys
 from contextlib import suppress
 from pathlib import Path
 
@@ -14,16 +13,28 @@ from setuptools.command.build import build
 
 
 class CustomCommand(Command):
-    def initialize_options(self) -> None:
+    def initialize_options(self):
         self.bdist_dir = None
 
-    def finalize_options(self) -> None:
+    def finalize_options(self):
         with suppress(Exception):
             self.bdist_dir = Path(self.get_finalized_command("bdist_wheel").bdist_dir)
 
-    def run(self) -> None:
-        if self.bdist_dir:
-            subprocess.call(["make", "install-S4"])
+    def run(self):
+        try:
+            proc = subprocess.Popen(
+                [
+                    "make",
+                    "install-S4",
+                ],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+            proc.wait()
+            (stdout, stderr) = proc.communicate()
+
+        except calledProcessError as err:
+            print("Error ocurred: " + err.stderr)
 
 
 class CustomBuild(build):

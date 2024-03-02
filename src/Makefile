@@ -55,7 +55,7 @@ printmessage:
 
 install:
 	cd src && make -s setup
-	pip install --ignore-installed  --upgrade ./
+	pip install .
 
 check:
 	@python -c "import S4; print(f'{S4.__name__} {S4.__version__}, {S4.__author__}: {S4.__description__}'); print('S4 installation OK!');"

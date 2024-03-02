@@ -1,3 +1,0 @@
-S4
-setup
-src

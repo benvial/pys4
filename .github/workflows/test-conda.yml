@@ -24,7 +24,6 @@ jobs:
           printenv | sort
       - shell: bash -el {0}
         run: |
-          conda info
           pip install .
           make check
           pip install pytest
