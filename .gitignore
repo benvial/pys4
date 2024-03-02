@@ -1,6 +1,9 @@
 
-src/S4/lib
-src/S4/include
+src/src/S4/lib
+src/src/S4/include
+src/build
+build
 src/setup.py
 doc/build
 doc/examples
+*.egg-info

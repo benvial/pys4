@@ -75,6 +75,7 @@ clean:
 	$(call message,${@})
 	@cd src && make -s clean
 	@cd doc && make -s clean
+	@ rm -rf build
 
 ## Build html documentation (live reload)  
 livedoc:
