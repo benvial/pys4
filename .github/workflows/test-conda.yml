@@ -1,5 +1,5 @@
 name: Test Conda
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: Test Conda
 on: [push]
 jobs:
   test:

@@ -3,7 +3,7 @@ SHELL := /bin/bash
 
 .DEFAULT_GOAL := help
 
-.PHONY: doc test dev
+.PHONY: doc test dev install-S4
 
 #################################################################################
 # GLOBALS                                                                       #
@@ -67,7 +67,7 @@ install:
 check:
 	$(call message,${@})
 	@cd src && make -s check
-	@python -c "import pyS4; print(f'{pyS4.__name__} {pyS4.__version__}, {pyS4.__author__}: {pyS4.__description__}'); print('pyS4 installation OK!');"
+	@python -c "import pys4; print(f'{pys4.__name__} {pys4.__version__}, {pys4.__author__}: {pys4.__description__}'); print('pys4 installation OK!');"
 
 
 ## Cleaning

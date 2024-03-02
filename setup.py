@@ -6,22 +6,28 @@
 import os
 import subprocess
 import sys
+from contextlib import suppress
+from pathlib import Path
 
-from setuptools import setup
-from setuptools.command.build_ext import build_ext
-
-
-class Build(build_ext):
-    """Customized setuptools build command."""
-
-    def run(self):
-        os.system("make install-S4")
-        super().run()
+from setuptools import Command, setup
+from setuptools.command.build import build
 
 
-setup(
-    has_ext_modules=lambda: True,
-    cmdclass={
-        "build_ext": Build,
-    },
-)
+class CustomCommand(Command):
+    def initialize_options(self) -> None:
+        self.bdist_dir = None
+
+    def finalize_options(self) -> None:
+        with suppress(Exception):
+            self.bdist_dir = Path(self.get_finalized_command("bdist_wheel").bdist_dir)
+
+    def run(self) -> None:
+        if self.bdist_dir:
+            subprocess.call(["make", "install-S4"])
+
+
+class CustomBuild(build):
+    sub_commands = [("build_custom", None)] + build.sub_commands
+
+
+setup(cmdclass={"build": CustomBuild, "build_custom": CustomCommand})

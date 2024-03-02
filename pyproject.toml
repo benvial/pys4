@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -43,26 +43,17 @@ dependencies = [
 [tool.setuptools]
 packages = ["pys4"]
 
-# [project.optional-dependencies]
-# all = [
-#     "netCDF4",
-#     "h5py"
-# ]
 
 # [project.urls]
 # homepage = "https://pys4.gitlab.io"
 # code = "https://gitlab.com/pys4/pys4"
 # issues = "https://gitlab.com/pys4/pys4/issues"
 
-# [project.entry-points.console_scripts]
-# pys4 = "pys4._cli:main"
+
 
 [tool.isort]
 profile = "black"
 
-
-# [tool.setuptools.dynamic]
-# version = {attr = "pys4.__version__"}
 
 [tool.bumpversion]
 current_version = "0.0.1"
