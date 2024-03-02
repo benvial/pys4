@@ -1,0 +1,13 @@
+LICENSE.txt
+MANIFEST.in
+README.md
+pyproject.toml
+setup.py
+pys4/__about__.py
+pys4/__init__.py
+pys4.egg-info/PKG-INFO
+pys4.egg-info/SOURCES.txt
+pys4.egg-info/dependency_links.txt
+pys4.egg-info/requires.txt
+pys4.egg-info/top_level.txt
+test/test_simple.py

@@ -1,0 +1,16 @@
+div.sphx-glr-download a {
+  background-color: var(--color-background-item) !important;
+  background-image: none !important;
+  font-family: var(--font-stack) !important;
+}
+div.sphx-glr-download code.download {
+  font-family: var(--font-stack) !important;
+}
+div.sphx-glr-download-link-note.admonition.note {
+  visibility: hidden;
+  height: 0;
+  margin: -7px;
+}
+a[class^="sphx-glr-backref"] {
+  color: inherit;
+}

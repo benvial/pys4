@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pys4"
+version = "0.0.1"
+
+description = "Python frontend for S4"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE.txt"}
+keywords = [
+  "photonics",
+]
+authors = [
+  {email = "contact@pys4.io"},
+  {name = "The pys4 Developers"}
+]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Programming Language :: Python",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Physics",
+  "Topic :: Scientific/Engineering :: Mathematics",
+  "Topic :: Utilities",
+]
+dependencies = [
+  "importlib_metadata; python_version<'3.8'",
+  "numpy>=1.20.0",
+]
+
+[tool.setuptools]
+packages = ["pys4"]
+
+# [project.optional-dependencies]
+# all = [
+#     "netCDF4",
+#     "h5py"
+# ]
+
+# [project.urls]
+# homepage = "https://pys4.gitlab.io"
+# code = "https://gitlab.com/pys4/pys4"
+# issues = "https://gitlab.com/pys4/pys4/issues"
+
+# [project.entry-points.console_scripts]
+# pys4 = "pys4._cli:main"
+
+[tool.isort]
+profile = "black"
+
+
+# [tool.setuptools.dynamic]
+# version = {attr = "pys4.__version__"}
+
+[tool.bumpversion]
+current_version = "0.0.1"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+ignore_missing_files = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = true
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+commit_args = "--no-verify"
+
+[[tool.bumpversion.files]]
+filename = "pyproject.toml"

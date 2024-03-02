@@ -1,0 +1,6 @@
+sphinx
+furo
+sphinx-gallery
+matplotlib
+memory_profiler
+sphinx-autobuild

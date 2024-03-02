@@ -1,0 +1,15 @@
+name: S4
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.8
+  - pip
+  - numpy
+  - suitesparse 
+  - openblas 
+  - mpich 
+  - boost 
+  - fftw 
+  - cxx-compiler
+  - pip:
+    - git+https://gitlab.com/benvial/klove.git
