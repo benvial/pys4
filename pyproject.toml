@@ -1,22 +1,16 @@
 [build-system]
-requires = ["setuptools>=61", "wheel","pip"]
+requires = ["setuptools>=61", "wheel", "pip"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "pys4"
 version = "0.0.1"
-
 description = "Python frontend for S4"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {file = "LICENSE.txt"}
-keywords = [
-  "photonics",
-]
-authors = [
-  {email = "contact@pys4.io"},
-  {name = "The pys4 Developers"}
-]
+license = { file = "LICENSE.txt" }
+keywords = ["photonics"]
+authors = [{ email = "contact@pys4.io" }, { name = "The pys4 Developers" }]
 classifiers = [
   "Development Status :: 1 - Planning",
   "Programming Language :: Python",
@@ -35,25 +29,17 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Mathematics",
   "Topic :: Utilities",
 ]
-dependencies = [
-  "importlib_metadata; python_version<'3.8'",
-  "numpy>=1.20.0",
-]
+dependencies = ["importlib_metadata; python_version<'3.8'", "numpy>=1.20.0"]
 
 [tool.setuptools]
 packages = ["pys4"]
-
 
 # [project.urls]
 # homepage = "https://pys4.gitlab.io"
 # code = "https://gitlab.com/pys4/pys4"
 # issues = "https://gitlab.com/pys4/pys4/issues"
-
-
-
 [tool.isort]
 profile = "black"
-
 
 [tool.bumpversion]
 current_version = "0.0.1"

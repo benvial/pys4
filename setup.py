@@ -4,6 +4,7 @@
 # License: GPLv3
 
 
+import os
 import subprocess
 from contextlib import suppress
 from pathlib import Path
@@ -21,20 +22,11 @@ class CustomCommand(Command):
             self.bdist_dir = Path(self.get_finalized_command("bdist_wheel").bdist_dir)
 
     def run(self):
-        try:
-            proc = subprocess.Popen(
-                [
-                    "make",
-                    "install-S4",
-                ],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-            )
-            proc.wait()
-            (stdout, stderr) = proc.communicate()
-
-        except calledProcessError as err:
-            print("Error ocurred: " + err.stderr)
+        subprocess.run(
+            ["make", "install-S4"],
+            capture_output=True,
+            check=True,
+        )
 
 
 class CustomBuild(build):

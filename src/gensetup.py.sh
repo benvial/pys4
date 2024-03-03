@@ -7,6 +7,9 @@ LIBS="$3"
 echo "LIBFILE: $LIBFILE"
 
 cat <<SETUPPY > setup.py
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
 from distutils.core import setup, Extension
 import numpy as np

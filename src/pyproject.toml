@@ -1,22 +1,16 @@
 [build-system]
-requires = ["setuptools", "wheel", "oldest-supported-numpy"]
+requires = ["setuptools>=61", "wheel", "oldest-supported-numpy"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "S4"
 version = "1.1"
-
 description = "Stanford Stratified Structure Solver (S4): Fourier Modal Method"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {file = "COPYRIGHT"}
-keywords = [
-  "photonics",
-]
-authors = [
-  {email = "victorliu@alumni.stanford.edu"},
-  {name = "Victor Liu"}
-]
+license = { file = "COPYRIGHT" }
+keywords = ["photonics"]
+authors = [{ email = "victorliu@alumni.stanford.edu" }, { name = "Victor Liu" }]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
   "Programming Language :: Python",
@@ -35,14 +29,10 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Mathematics",
   "Topic :: Utilities",
 ]
-dependencies = [
-  "importlib_metadata; python_version<'3.8'",
-  "numpy>=1.20.0",
-]
+dependencies = ["importlib_metadata; python_version<'3.8'", "numpy>=1.20.0"]
 
 [tool.setuptools]
 packages = ["S4"]
-
 
 [project.urls]
 homepage = "http://fan.group.stanford.edu/S4/o"
