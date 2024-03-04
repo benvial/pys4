@@ -1,16 +1,48 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Author: Benjamin Vial
-# License: GPLv3
-
 
 import os
-import subprocess
+from distutils.core import setup, Extension, Command
 from contextlib import suppress
 from pathlib import Path
-
-from setuptools import Command, setup
 from setuptools.command.build import build
+import subprocess
+import numpy as np
+
+lib_dirs = ["src/S4/build"]
+libs = ["S4", "stdc++"]
+libs.extend(
+    [
+        "blas",
+        "lapack",
+        "fftw3",
+        "pthread",
+        "cholmod",
+        "amd",
+        "colamd",
+        "camd",
+        "ccolamd",
+        "boost_serialization",
+    ]
+)
+include_dirs = [np.get_include()]
+libfile = "src/S4/build/libS4.a"
+sources = ["src/S4/S4/main_python.c"]
+
+
+# print(include_dirs)
+# print(lib_dirs)
+# print(libs)
+
+S4module = Extension(
+    "S4",
+    sources=sources,
+    libraries=libs,
+    library_dirs=lib_dirs,
+    include_dirs=include_dirs,
+    extra_objects=[libfile],
+    extra_compile_args=["-std=gnu99"],
+)
 
 
 class CustomCommand(Command):
@@ -23,7 +55,7 @@ class CustomCommand(Command):
 
     def run(self):
         subprocess.run(
-            ["make", "install-S4"],
+            ["make", "lib"],
             capture_output=True,
             check=True,
         )
@@ -33,4 +65,9 @@ class CustomBuild(build):
     sub_commands = [("build_custom", None)] + build.sub_commands
 
 
-setup(cmdclass={"build": CustomBuild, "build_custom": CustomCommand})
+setup(
+    name="pys4",
+    ext_modules=[S4module],
+    packages=["pys4"],
+    cmdclass={"build": CustomBuild, "build_custom": CustomCommand},
+)

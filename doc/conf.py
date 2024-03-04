@@ -26,7 +26,9 @@
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-import S4
+
+
+from pys4 import S4
 
 extensions = [
     "sphinx.ext.autodoc",

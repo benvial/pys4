@@ -2201,7 +2201,7 @@ static struct PyModuleDef S4_module = {
 	NULL
 };
 #define INITERROR return NULL
-PyObject * PyInit_S4ext(void)
+PyObject * PyInit_S4(void)
 #else
 #define INITERROR return
 PyMODINIT_FUNC initS4(void)

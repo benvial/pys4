@@ -21,7 +21,7 @@ include_dirs = [np.get_include()]
 libfile = os.path.join("src", "$LIBFILE")
 extra_link_args = [libfile]
 sources = [os.path.join("src", "S4/main_python.c")]
-S4module = Extension("S4ext",
+S4module = Extension("pys4._S4ext",
 	sources = sources,
 	libraries = libs,
 	library_dirs = lib_dirs,
@@ -30,7 +30,7 @@ S4module = Extension("S4ext",
 	extra_compile_args=["-std=gnu99"] 
 )
 
-setup(name = "S4",
+setup(name = "pys4",
 	ext_modules = [S4module],
 )
 SETUPPY

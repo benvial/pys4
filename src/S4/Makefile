@@ -51,8 +51,8 @@ PTHREAD_INC = -DHAVE_UNISTD_H
 # Alternate Example: I compiled and istalled SuiteSpares in the directory above this S4 directory
 # CHOLMOD_INC = -I../SuiteSparse/include/
 # CHOLMOD_LIB = -L../SuiteSparse/lib/ -lcholmod -lamd -lcolamd -lcamd -lccolamd
-CHOLMOD_INC = -I/$(CONDA_PREFIX)/include
-CHOLMOD_LIB = -I/$(CONDA_PREFIX)/lib -lcholmod -lamd -lcolamd -lcamd -lccolamd
+CHOLMOD_INC = -I$(CONDA_PREFIX)/include
+CHOLMOD_LIB = -I$(CONDA_PREFIX)/lib -lcholmod -lamd -lcolamd -lcamd -lccolamd
 
 # Specify the MPI library
 # For example, on Fedora: dnf  install openmpi-devel
@@ -60,8 +60,8 @@ CHOLMOD_LIB = -I/$(CONDA_PREFIX)/lib -lcholmod -lamd -lcolamd -lcamd -lccolamd
 #MPI_LIB = -lmpi
 # or, explicitly link to the library with -L, example below
 #MPI_LIB = -L/usr/lib64/openmpi/lib/libmpi.so
-MPI_INC = -I/$(CONDA_PREFIX)/include
-MPI_LIB = -L/$(CONDA_PREFIX)/lib/libmpi.so
+MPI_INC = -I$(CONDA_PREFIX)/include
+MPI_LIB = -L$(CONDA_PREFIX)/lib/libmpi.so
 
 # Enable S4_TRACE debugging
 # values of 1, 2, 3 enable debugging, with verbosity increasing as 
@@ -79,7 +79,7 @@ CFLAGS = -Wall -O3 -m64 -march=native -mtune=native -msse3 -msse2 -msse -fPIC
 # options for Sampler module
 OPTFLAGS = -O3
 
-OBJDIR = ./build
+OBJDIR = $(PWD)/build
 S4_BINNAME = $(OBJDIR)/S4
 S4_LIBNAME = $(OBJDIR)/libS4.a
 S4r_LIBNAME = $(OBJDIR)/libS4r.a
@@ -294,9 +294,10 @@ $(OBJDIR)/S4r/predicates.o: S4r/predicates.c
 	$(CC) -c -O3 $< -o $@
 
 
-setup: objdir $(S4_LIBNAME)
-	sh ../gensetup.py.sh $(OBJDIR) $(S4_LIBNAME) "$(LIBS)" $(BOOST_PREFIX)
-	mv setup.py ../
+lib: objdir $(S4_LIBNAME)
+
+setup: 
+	sh gensetup.py.sh $(OBJDIR) $(S4_LIBNAME) "$(LIBS)" $(BOOST_PREFIX)
 
 clean:
 	rm -rf $(OBJDIR) S4.egg-info setup.py

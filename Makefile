@@ -52,10 +52,16 @@ printmessage:
 # COMMANDS                                                                      #
 #################################################################################
 
+## Build S4 lib
+lib:
+	$(call message,${@})
+	@cd src/S4 && make -s lib
+
 ## Build C extension and install S4 Python package
 install-S4:
 	$(call message,${@})
-	@cd src && make -s install
+	@cd src/S4 && make -s setup
+	# @mv src/S4/setup.py .
 
 ## Build C extension and install S4 Python package
 install:
@@ -66,7 +72,7 @@ install:
 ## Check the installation by running some simple tests
 check:
 	$(call message,${@})
-	@cd src && make -s check
+	@python -c "import S4; print(f'{S4.__name__} {S4.__doc__}'); print('S4 installation OK!');"
 	@python -c "import pys4; print(f'{pys4.__name__} {pys4.__version__}, {pys4.__author__}: {pys4.__description__}'); print('pys4 installation OK!');"
 
 

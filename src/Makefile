@@ -54,17 +54,13 @@ printmessage:
 #### Python extension
 
 install:
-	cd src && make -s setup
-	pip install .
-
-check:
-	@python -c "import S4; print(f'{S4.__name__} {S4.__version__}, {S4.__author__}: {S4.__description__}'); print('S4 installation OK!');"
+	cd S4 && make -s setup
 
 ## Cleaning
 clean:
 	$(call message,${@})
-	@cd src && make -s clean
-	@rm -rf S4.egg-info setup.py build
+	@cd S4 && make -s clean
+	@rm -rf build
 
 #################################################################################
 # Self Documenting Commands                                                     #
