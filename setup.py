@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import os
-from distutils.core import setup, Extension, Command
-from contextlib import suppress
-from pathlib import Path
-from setuptools.command.build import build
 import subprocess
+from contextlib import suppress
+from distutils.core import Command, Extension, setup
+from pathlib import Path
+
 import numpy as np
+from setuptools.command.build import build
 
 lib_dirs = ["src/S4/build"]
 libs = ["S4", "stdc++"]

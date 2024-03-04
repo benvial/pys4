@@ -4,10 +4,9 @@
 # This file is part of pyS4
 # License: GPLv3
 
-from .__about__ import __author__, __description__, __version__
-
 import S4
 
+from .__about__ import __author__, __description__, __version__
 
 S4.__version__ = "1.1"
 S4.__description__ = S4.__doc__
