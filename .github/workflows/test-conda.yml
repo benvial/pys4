@@ -33,7 +33,7 @@ jobs:
         with:
           python-versions: 'cp310-cp310 cp311-cp311'
           build-requirements: 'cython numpy'
-          system-packages: 'libboost-all-dev libopenblas-dev libfftw3-dev libsuitesparse-dev'
+          system-packages: 'boost-devel openblas-devel fftw3-devel suitesparse-devel'
       - name: Publish wheels to PyPI
         env:
           TWINE_USERNAME: __token__

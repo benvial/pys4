@@ -7,3 +7,4 @@ src/setup.py
 doc/build
 doc/examples
 pys4.egg-info
+dist
