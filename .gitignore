@@ -6,4 +6,4 @@ build
 src/setup.py
 doc/build
 doc/examples
-*.egg-info
+pys4.egg-info

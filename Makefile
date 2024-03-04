@@ -81,7 +81,7 @@ clean:
 	$(call message,${@})
 	@cd src && make -s clean
 	@cd doc && make -s clean
-	@rm -rf build *.egg info
+	@rm -rf build pys4.egg info S4.cpython*.so
 
 ## Build html documentation (live reload)  
 livedoc:
