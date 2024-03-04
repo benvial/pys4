@@ -32,9 +32,16 @@ src/S4/__pycache__/__about__.cpython-310.pyc
 src/S4/__pycache__/__about__.cpython-312.pyc
 src/S4/__pycache__/__init__.cpython-310.pyc
 src/S4/__pycache__/__init__.cpython-312.pyc
+src/build/lib.linux-x86_64-cpython-310/S4/__about__.py
+src/build/lib.linux-x86_64-cpython-310/S4/__init__.py
+src/build/lib.linux-x86_64-cpython-311/S4ext.cpython-311-x86_64-linux-gnu.so
+src/build/lib.linux-x86_64-cpython-311/S4/__about__.py
+src/build/lib.linux-x86_64-cpython-311/S4/__init__.py
 src/build/lib.linux-x86_64-cpython-312/S4ext.cpython-312-x86_64-linux-gnu.so
 src/build/lib.linux-x86_64-cpython-312/S4/__about__.py
 src/build/lib.linux-x86_64-cpython-312/S4/__init__.py
+src/build/temp.linux-x86_64-cpython-310/src/S4/main_python.o
+src/build/temp.linux-x86_64-cpython-311/src/S4/main_python.o
 src/build/temp.linux-x86_64-cpython-312/src/S4/main_python.o
 src/src/Makefile
 src/src/pretty_trace.pl

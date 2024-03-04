@@ -11,5 +11,3 @@ dependencies:
   - boost 
   - fftw 
   - cxx-compiler
-  - pip:
-    - git+https://gitlab.com/benvial/klove.git
