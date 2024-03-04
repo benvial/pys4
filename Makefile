@@ -144,9 +144,19 @@ remote:
 ## Format and push to remote
 save: style remote
 	$(call message,${@})
-	
-python:
-	cd src && make install && make clean
+
+## Create python package
+package:
+	$(call message,${@})
+	@if [ "$(shell git rev-parse --abbrev-ref HEAD)" != "main" ]; then exit 1; fi
+	@rm -f dist/*
+	@python -m build -vvv
+
+## Upload to pypi
+pypi: package
+	$(call message,${@})
+	@twine upload dist/*
+
 
 #################################################################################
 # Self Documenting Commands                                                     #

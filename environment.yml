@@ -1,4 +1,4 @@
-name: S4
+name: pys4
 channels:
   - conda-forge
 dependencies:

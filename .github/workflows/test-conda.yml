@@ -7,24 +7,37 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v4
-      - uses: conda-incubator/setup-miniconda@v3
+      # - uses: conda-incubator/setup-miniconda@v3
+      #   with:
+      #     python-version: 3.12
+      #     mamba-version: "*"
+      #     channels: conda-forge,defaults
+      #     channel-priority: true
+      #     activate-environment: anaconda-client-env
+      #     environment-file: environment.yml
+      # - shell: bash -el {0}
+      #   run: |
+      #     conda info
+      #     conda list
+      #     conda config --show-sources
+      #     conda config --show
+      #     printenv | sort
+      # - shell: bash -el {0}
+      #   run: |
+      #     pip install .
+      #     make check
+      #     pip install pytest
+      #     make test
+      - name: Build manylinux Python wheels
+        uses: RalfG/python-wheels-manylinux-build@v0.7.1-manylinux2014_x86_64
         with:
-          python-version: 3.12
-          mamba-version: "*"
-          channels: conda-forge,defaults
-          channel-priority: true
-          activate-environment: anaconda-client-env
-          environment-file: environment.yml
-      - shell: bash -el {0}
+          python-versions: 'cp310-cp310 cp311-cp311'
+          build-requirements: 'cython numpy'
+          system-packages: 'libboost-all-dev libopenblas-dev libfftw3-dev libsuitesparse-dev'
+      - name: Publish wheels to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
         run: |
-          conda info
-          conda list
-          conda config --show-sources
-          conda config --show
-          printenv | sort
-      - shell: bash -el {0}
-        run: |
-          pip install .
-          make check
-          pip install pytest
-          make test
+          twine upload dist/*-manylinux*.whl
+
