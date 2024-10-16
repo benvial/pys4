@@ -28,16 +28,28 @@ jobs:
       #     make check
       #     pip install pytest
       #     make test
-      - name: Build manylinux Python wheels
-        uses: RalfG/python-wheels-manylinux-build@v0.7.1-manylinux2014_x86_64
-        with:
-          python-versions: 'cp310-cp310 cp311-cp311'
-          build-requirements: 'cython numpy'
-          system-packages: 'boost-devel openblas-devel fftw3-devel suitesparse-devel'
-      - name: Publish wheels to PyPI
-        env:
-          TWINE_USERNAME: __token__
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          twine upload dist/*-manylinux*.whl
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04]
+        #, windows-2019, macos-11]
 
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.16.5
+        # env:
+        #   CIBW_SOME_OPTION: value
+        #    ...
+        # with:
+        #   package-dir: .
+        #   output-dir: wheelhouse
+        #   config-file: "{package}/pyproject.toml"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          path: ./wheelhouse/*.whl

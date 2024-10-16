@@ -150,7 +150,7 @@ package:
 	$(call message,${@})
 	@if [ "$(shell git rev-parse --abbrev-ref HEAD)" != "main" ]; then exit 1; fi
 	@rm -f dist/*
-	@python -m build -vvv
+	@python -vvv -m build
 
 ## Upload to pypi
 pypi: package

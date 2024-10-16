@@ -61,3 +61,7 @@ commit_args = "--no-verify"
 
 [[tool.bumpversion.files]]
 filename = "pyproject.toml"
+
+
+[tool.cibuildwheel]
+before-all = "yum -y install boost-devel openblas-devel fftw3-devel suitesparse-devel"
