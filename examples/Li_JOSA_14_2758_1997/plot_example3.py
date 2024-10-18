@@ -16,76 +16,33 @@ This is Fig. 10
 
 """
 
+
 import matplotlib.pyplot as plt
 
-import S4
-
-plt.ion()
+from pys4 import Simulation
 
 
 def simulation(ng, formulation, truncation):
 
-    S = S4.New(((2, 0), (1, 3**0.5)), ng)
+    simu = Simulation(((2.0, 0), (1, 3**0.5)), ng)
 
-    S.SetMaterial(Name="Dielectric", Epsilon=2.25 + 0.0j)
-    S.SetMaterial(Name="Metal", Epsilon=1 + 5.0j)
-    S.SetMaterial(Name="Vacuum", Epsilon=1 + 0.0j)
-    S.AddLayer(Name="StuffAbove", Thickness=0, Material="Vacuum")
-    S.AddLayer(Name="Slab", Thickness=1, Material="Metal")
-    S.SetRegionPolygon(
-        "Slab",
-        "Vacuum",
-        [0, 0],
-        0,
-        (
-            (-0.75, -0.25 * 3**0.5),
-            (0.25, -0.25 * 3**0.5),
-            (0.75, 0.25 * 3**0.5),
-            (-0.25, 0.25 * 3**0.5),
-        ),
+    dielectric = simu.Material(name="Dielectric", epsilon=2.25)
+    metal = simu.Material(name="Metal", epsilon=1 + 5.0j)
+    vacuum = simu.Material(name="Vacuum", epsilon=1)
+    superstrate = simu.Layer(name="Superstrate", thickness=0, material=vacuum)
+    slab = simu.Layer(name="Slab", thickness=1, material=metal)
+    vertices = (
+        (-0.75, -0.25 * 3**0.5),
+        (0.25, -0.25 * 3**0.5),
+        (0.75, 0.25 * 3**0.5),
+        (-0.25, 0.25 * 3**0.5),
     )
-    S.AddLayer(Name="StuffBelow", Thickness=0, Material="Dielectric")
-    S.SetExcitationPlanewave(
-        IncidenceAngles=(
-            30,
-            30,
-        ),  # polar angle in [0,180)  # azimuthal angle in [0,360)
-        sAmplitude=0,
-        pAmplitude=1,
-        Order=0,
-    )
-
-    S.SetOptions(
-        Verbosity=0,
-        LatticeTruncation=truncation,
-        DiscretizationResolution=8,
-        PolarizationDecomposition=False,
-        PolarizationBasis="Default",
-        LanczosSmoothing=False,
-        SubpixelSmoothing=False,
-        ConserveMemory=False,
-    )
-
-    S.SetFrequency(1.0000001)
-
-    if formulation == "new":
-
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Default",
-        )
-    elif formulation == "normal":
-
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Normal",
-        )
-    elif formulation == "jones":
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Jones",
-        )
-    return S
+    slab.add_polygon(material=vacuum, vertices=vertices)
+    substrate = simu.Layer(name="Substrate", thickness=0, material=dielectric)
+    simu.PlaneWave(frequency=1.0000001, angles=(30, 30), sp_amplitudes=(0, 1))
+    simu.lattice_truncation = truncation
+    simu.polarization_decomposition = True if formulation == "new" else False
+    return simu
 
 
 ##########################################################
@@ -109,15 +66,15 @@ for t in truncations:
         actual_ngs = []
 
         for ng in ngs:
-            S = simulation(ng, f, t)
-            power_inc = S.GetPoyntingFlux("StuffAbove", 0)
-            G = S.GetBasisSet()
+            simu = simulation(ng, f, t)
+            power_inc = simu.layers["Superstrate"].get_power_flux(0)
+            G = simu.get_basis_set()
             order = (0, -1)
             for i, g in enumerate(G):
                 if order[0] == g[0] and order[1] == g[1]:
                     Gi = i
                     break
-            Pt = S.GetPoyntingFluxByOrder("StuffBelow", 0)
+            Pt = simu.layers["Substrate"].get_power_flux(0, order=True)
             T = Pt[Gi][0].real / power_inc[0].real
 
             order = (0, 0)
@@ -125,9 +82,9 @@ for t in truncations:
                 if order[0] == g[0] and order[1] == g[1]:
                     Gi = i
                     break
-            Pr = S.GetPoyntingFluxByOrder("StuffAbove", 0)
+            Pr = simu.layers["Superstrate"].get_power_flux(0, order=True)
             R = Pr[Gi][1].real / power_inc[1].real
-            actualg = len(G)
+            actualg = simu.num_basis_actual
             print(f"nh = {actualg}, T{0,-1} = {T}, R{0,0} = {R}")
             trans.append(T)
             refl.append(R)

@@ -1337,10 +1337,10 @@ static void sparse_linsolve_d(int n, const double *M, const int *Mcol, int Mnd, 
 			((int*)A->p)[i] = nnz;
 			((int*)A->i)[nnz] = i;
 			break;
-		case CHOLMOD_INTLONG:
-			((SuiteSparse_long*)A->p)[i] = nnz;
-			((int*)A->i)[nnz] = i;
-			break;
+		// case CHOLMOD_INTLONG:
+		// 	((SuiteSparse_long*)A->p)[i] = nnz;
+		// 	((int*)A->i)[nnz] = i;
+		// 	break;
 		case CHOLMOD_LONG:
 			((SuiteSparse_long*)A->p)[i] = nnz;
 			((SuiteSparse_long*)A->i)[nnz] = i;
@@ -1356,9 +1356,9 @@ static void sparse_linsolve_d(int n, const double *M, const int *Mcol, int Mnd, 
 				case CHOLMOD_INT:
 					((int*)A->i)[nnz] = Mcol[Mnd*i+j];
 					break;
-				case CHOLMOD_INTLONG:
-					((int*)A->i)[nnz] = Mcol[Mnd*i+j];
-					break;
+				// case CHOLMOD_INTLONG:
+				// 	((int*)A->i)[nnz] = Mcol[Mnd*i+j];
+				// 	break;
 				case CHOLMOD_LONG:
 					((SuiteSparse_long*)A->i)[nnz] = Mcol[Mnd*i+j];
 					break;
@@ -1371,9 +1371,9 @@ static void sparse_linsolve_d(int n, const double *M, const int *Mcol, int Mnd, 
 	case CHOLMOD_INT:
 		((int*)A->p)[i] = nnz;
 		break;
-	case CHOLMOD_INTLONG:
-		((SuiteSparse_long*)A->p)[i] = nnz;
-		break;
+	// case CHOLMOD_INTLONG:
+	// 	((SuiteSparse_long*)A->p)[i] = nnz;
+	// 	break;
 	case CHOLMOD_LONG:
 		((SuiteSparse_long*)A->p)[i] = nnz;
 		break;

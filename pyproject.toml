@@ -1,13 +1,13 @@
 [build-system]
-requires = ["setuptools>=61", "wheel", "oldest-supported-numpy"]
-build-backend = "setuptools.build_meta"
+build-backend = 'mesonpy'
+requires = ['meson-python',"numpy >=1.20"]
 
 [project]
 name = "pys4"
 version = "0.0.1"
 description = "Python frontend for S4"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 license = { file = "LICENSE.txt" }
 keywords = ["photonics"]
 authors = [{ email = "contact@pys4.io" }, { name = "The pys4 Developers" }]
@@ -29,39 +29,60 @@ classifiers = [
   "Topic :: Scientific/Engineering :: Mathematics",
   "Topic :: Utilities",
 ]
-dependencies = ["importlib_metadata; python_version<'3.8'", "numpy>=1.20.0"]
+dependencies = ["numpy>=1.20","matplotlib"]
 
 [tool.setuptools]
 packages = ["pys4"]
 
-# [project.urls]
-# homepage = "https://pys4.gitlab.io"
-# code = "https://gitlab.com/pys4/pys4"
-# issues = "https://gitlab.com/pys4/pys4/issues"
-[tool.isort]
-profile = "black"
 
-[tool.bumpversion]
-current_version = "0.0.1"
-parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
-serialize = ["{major}.{minor}.{patch}"]
-search = "{current_version}"
-replace = "{new_version}"
-regex = false
-ignore_missing_version = false
-ignore_missing_files = false
-tag = true
-sign_tags = false
-tag_name = "v{new_version}"
-tag_message = "Bump version: {current_version} → {new_version}"
-allow_dirty = true
-commit = true
-message = "Bump version: {current_version} → {new_version}"
-commit_args = "--no-verify"
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "pytest-cov",
+  "pytest-datadir",
+  "pytest-sugar",
+  "pytest-xdist[psutil]",
+  "coverage",
+]
+doc = [
+  "MarkupSafe",
+  "Sphinx",
+  "furo",
+  "sphinx-gallery",
+  "sphinx-copybutton",
+  "memory_profiler",
+]
+dev = ["ruff", "meson-python", "ninja"]
+all = ["pys4[test,doc,dev]"]
 
-[[tool.bumpversion.files]]
-filename = "pyproject.toml"
+# [tool.meson-python.args]
+# setup = ['--default-library=static']
+
+[tool.pytest.ini_options]
+addopts = "test --cov=pys4 --cov-report html --cov-report term"
+
+# [tool.ruff]
+# # Set the maximum line length to 79.
+# line-length = 79
+
+# [tool.ruff.lint]
+# extend-select = [
+#   "E501", #line-too-long
+#   "UP", # pyupgrade
+#   "D", # pydocstyle
+
+# ]
+# ignore = ["D206"]
+
+# [tool.ruff.lint.pydocstyle]
+# convention = "numpy"
+
+# [tool.ruff.format]
+# quote-style = "double"
+# indent-style = "tab"
+# docstring-code-format = true
 
 
-[tool.cibuildwheel]
-before-all = "yum -y install boost-devel openblas-devel fftw3-devel suitesparse-devel"
+
+# # [tool.cibuildwheel]
+# # before-all = "yum -y install boost-devel openblas-devel fftw3-devel suitesparse-devel"

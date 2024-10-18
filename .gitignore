@@ -9,3 +9,7 @@ doc/examples
 pys4.egg-info
 dist
 *.egg-info
+wheelhouse
+htmlcov
+.coverage
+.pytest_cache

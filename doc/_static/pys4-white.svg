@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.0"
+   width="260pt"
+   height="260pt"
+   viewBox="0 0 260 260"
+   preserveAspectRatio="xMidYMid"
+   id="svg1"
+   sodipodi:docname="pys4-white.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <rect
+       x="223.07126"
+       y="14.188232"
+       width="235.42644"
+       height="260.64488"
+       id="rect1" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="pt"
+     inkscape:zoom="1.5853846"
+     inkscape:cx="216.66667"
+     inkscape:cy="173.14411"
+     inkscape:window-width="1920"
+     inkscape:window-height="1080"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <g
+     transform="matrix(0.15427698,0,0,-0.15427698,-127.58044,360.82688)"
+     fill="#000000"
+     stroke="none"
+     id="g1"
+     style="fill:#ffffff;stroke-width:0.648185">
+    <path
+       d="m 1284,1820 c -101,-20 -212,-109 -256,-207 -18,-38 -22,-67 -23,-143 0,-85 3,-101 29,-154 37,-76 101,-140 174,-174 57,-27 58,-27 335,-30 l 277,-3 v 50 c 0,40 4,53 22,65 45,32 113,13 161,-44 76,-90 25,-232 -94,-260 -99,-24 -225,9 -330,87 l -62,45 -41,-24 c -23,-12 -131,-72 -239,-133 -108,-60 -196,-114 -197,-118 0,-4 217,-7 483,-5 482,3 482,3 534,27 104,46 183,169 183,281 0,106 -73,224 -167,271 -47,23 -57,24 -358,29 -337,6 -348,8 -394,66 -65,83 -14,217 88,231 79,11 111,-26 111,-128 v -59 l 323,2 322,3 3,71 3,71 -49,7 c -73,9 -149,52 -220,123 l -64,63 -256,-1 c -142,-1 -276,-5 -298,-9 z m 486,-140 c 8,-14 8,-26 0,-40 -19,-35 -80,-20 -80,20 0,40 61,55 80,20 z"
+       id="path1"
+       style="fill:#ffffff;stroke-width:0.648185" />
+  </g>
+  <text
+     xml:space="preserve"
+     transform="matrix(0.75,0,0,0.75,-43.990855,-15.526583)"
+     id="text1"
+     style="font-size:128px;font-family:Audiowide;-inkscape-font-specification:Audiowide;text-align:center;white-space:pre;shape-inside:url(#rect1);display:inline;fill:#ffffff;fill-opacity:1;stroke-width:23.52;paint-order:markers fill stroke"><tspan
+       x="291.28418"
+       y="129.55786"
+       id="tspan1">4</tspan></text>
+</svg>

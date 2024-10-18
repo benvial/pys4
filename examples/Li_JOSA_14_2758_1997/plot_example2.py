@@ -18,64 +18,32 @@ This is Fig. 7
 
 import matplotlib.pyplot as plt
 
-import S4
+from pys4 import Simulation
 
 plt.ion()
 
 
 def simulation(ng, formulation):
 
-    S = S4.New(((1, 0), (1 / 2, 3**0.5 / 2)), ng)
+    simu = Simulation(((1, 0), (1 / 2, 3**0.5 / 2)), ng)
 
-    S.SetMaterial(Name="Dielectric", Epsilon=2.56 + 0.0j)
-    S.SetMaterial(Name="Vacuum", Epsilon=1 + 0.0j)
-    S.AddLayer(Name="StuffAbove", Thickness=0, Material="Vacuum")
-    S.AddLayer(Name="Slab", Thickness=0.5, Material="Vacuum")
-    S.SetRegionCircle(Layer="Slab", Material="Dielectric", Center=(0, 0), Radius=0.25)
-    S.AddLayer(Name="StuffBelow", Thickness=0, Material="Dielectric")
-    S.SetExcitationPlanewave(
-        IncidenceAngles=(
-            30,
-            30,
-        ),  # polar angle in [0,180)  # azimuthal angle in [0,360)
-        sAmplitude=0,
-        pAmplitude=1,
-        Order=0,
-    )
-
-    S.SetOptions(
-        Verbosity=0,
-        LatticeTruncation="Circular",
-        # LatticeTruncation="Parallelogramic",
-        # DiscretizedEpsilon=True,
-        DiscretizationResolution=8,
-        PolarizationDecomposition=False,
-        PolarizationBasis="Default",
-        LanczosSmoothing=False,
-        SubpixelSmoothing=False,
-        ConserveMemory=False,
-    )
-
-    S.SetFrequency(2.0000001)
-
+    dielectric = simu.Material(name="Dielectric", epsilon=2.56)
+    vacuum = simu.Material(name="Vacuum", epsilon=1)
+    superstrate = simu.Layer(name="Superstrate", thickness=0, material=vacuum)
+    slab = simu.Layer(name="Slab", thickness=0.5, material=vacuum)
+    slab.add_circle(material=dielectric, radius=0.25)
+    substrate = simu.Layer(name="Substrate", thickness=0, material=dielectric)
+    simu.PlaneWave(frequency=2.0000001, angles=(30, 30), sp_amplitudes=(0, 1))
+    simu.polarization_decomposition = True
     if formulation == "new":
-
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Default",
-        )
+        simu.polarization_basis = "default"
     elif formulation == "normal":
-
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Normal",
-        )
+        simu.polarization_basis = "normal"
     elif formulation == "jones":
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Jones",
-        )
-    return S
+        simu.polarization_basis = "jones"
+    else:
+        simu.polarization_decomposition = False
+    return simu
 
 
 ##########################################################
@@ -94,16 +62,16 @@ for f in formulations:
     actual_ngs = []
 
     for ng in ngs:
-        S = simulation(ng, f)
-        power_inc = S.GetPoyntingFlux("StuffAbove", 0)[0].real
-        G = S.GetBasisSet()
+        simu = simulation(ng, f)
+        power_inc = simu.layers["Superstrate"].get_power_flux(0)[0].real
+        G = simu.get_basis_set()
         for i, g in enumerate(G):
             if -1 == g[0] and -2 == g[1]:
                 Gi = i
                 break
-        Pt = S.GetPoyntingFluxByOrder("StuffBelow", 0)
+        Pt = simu.layers["Substrate"].get_power_flux(0, order=True)
         T = (Pt[Gi][0] / power_inc).real
-        actualg = len(G)
+        actualg = simu.num_basis_actual
         print(f"nh = {actualg}, T = {T}")
         trans.append(T)
         actual_ngs.append(actualg)

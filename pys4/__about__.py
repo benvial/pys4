@@ -5,17 +5,13 @@
 # License: GPLv3
 
 
-try:
-    # Python 3.8
-    import importlib.metadata as metadata
-except ImportError:
-    import importlib_metadata as metadata
+import importlib_metadata as metadata
 
 
 def get_meta(metadata):
     try:
-        data = metadata.metadata("pyS4")
-        __version__ = metadata.version("pyS4")
+        data = metadata.metadata("pys4")
+        __version__ = metadata.version("pys4")
         __author__ = data.get("author")
         __description__ = data.get("summary")
     except Exception:

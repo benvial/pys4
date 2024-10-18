@@ -18,54 +18,33 @@ This is Fig. 6
 
 import matplotlib.pyplot as plt
 
-import S4
+from pys4 import Simulation
 
 
 def simulation(ng, formulation):
-
-    S = S4.New(((2.5, 0), (0, 2.5)), ng)
-    S.SetMaterial(Name="Dielectric", Epsilon=2.25 + 0.0j)
-    S.SetMaterial(Name="Vacuum", Epsilon=1 + 0.0j)
-    S.AddLayer(Name="StuffAbove", Thickness=0, Material="Dielectric")
-    S.AddLayer(Name="Slab", Thickness=1, Material="Vacuum")
-    S.SetRegionRectangle(
-        Layer="Slab",
-        Material="Dielectric",
-        Center=(1.25 / 2, 1.25 / 2),
-        Angle=0,
-        Halfwidths=(1.25 / 2, 1.25 / 2),
+    simu = Simulation(((2.5, 0), (0, 2.5)), ng)
+    dielectric = simu.Material(name="Dielectric", epsilon=2.25)
+    vacuum = simu.Material(name="Vacuum", epsilon=1)
+    above = simu.Layer(name="StuffAbove", thickness=0, material=dielectric)
+    slab = simu.Layer(name="Slab", thickness=1, material=vacuum)
+    below = simu.Layer(name="AirBelow", thickness=0, material=vacuum)
+    slab.add_rectangle(
+        material=dielectric, widths=(1.25, 1.25), center=(1.25 / 2, 1.25 / 2)
     )
-    S.SetRegionRectangle(
-        Layer="Slab",
-        Material="Dielectric",
-        Center=(-1.25 / 2, -1.25 / 2),
-        Angle=0,
-        Halfwidths=(1.25 / 2, 1.25 / 2),
+    slab.add_rectangle(
+        material=dielectric, widths=(1.25, 1.25), center=(-1.25 / 2, -1.25 / 2)
     )
-    S.SetExcitationPlanewave(
-        IncidenceAngles=(0, 0),  # polar angle in [0,180)  # azimuthal angle in [0,360)
-        sAmplitude=1,
-        pAmplitude=0,
-        Order=0,
-    )
-    S.AddLayer(Name="AirBelow", Thickness=0, Material="Vacuum")
-    S.SetFrequency(1)
+    # polar angle in [0,180)  # azimuthal angle in [0,360)
+    simu.PlaneWave(frequency=1, angles=(0, 0), sp_amplitudes=(1, 0))
 
     if formulation == "new":
-
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Default",
-        )
+        simu.polarization_decomposition = True
+        simu.polarization_basis = "default"
     elif formulation == "normal":
-
-        S.SetOptions(
-            PolarizationDecomposition=True,
-            PolarizationBasis="Normal",
-            DiscretizationResolution=8,
-        )
-
-    return S
+        simu.polarization_decomposition = True
+        simu.polarization_basis = "normal"
+        simu.discretization_resolution = 8
+    return simu
 
 
 ##########################################################
@@ -84,11 +63,10 @@ for f in formulations:
     actual_ngs = []
 
     for ng in ngs:
-        S = simulation(ng, f)
-        power_inc = S.GetPoyntingFlux("StuffAbove", 0)[0].real
-        G = S.GetBasisSet()
-        P = S.GetPoyntingFluxByOrder("AirBelow", 0)
-        actualg = len(G)
+        simu = simulation(ng, f)
+        power_inc = simu.layers["StuffAbove"].get_power_flux(0)[0].real
+        P = simu.layers["AirBelow"].get_power_flux(0, order=True)
+        actualg = simu.num_basis_actual
         T = P[5][0].real / power_inc
         print(actualg, T)
         trans.append(T)

@@ -17,6 +17,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 #include "Python.h"
 #include "numpy/arrayobject.h"
 
@@ -61,9 +62,7 @@ extern "C" {
 
 static int CheckPyNumber(PyObject *obj){
 	return PyFloat_Check(obj) || PyLong_Check(obj)
-#if PY_MAJOR_VERSION < 3
 		|| PyLong_Check(obj)
-#endif
 	;
 }
 static double AsNumberPyNumber(PyObject *obj){
@@ -72,11 +71,9 @@ static double AsNumberPyNumber(PyObject *obj){
 	}else if(PyLong_Check(obj)){
 		return (double)PyLong_AsLong(obj);
 	}
-#if PY_MAJOR_VERSION < 3
 	else if(PyLong_Check(obj)){
 		return (double)PyLong_AsLong(obj);
 	}
-#endif
 	return -1.0;
 }
 static int CheckPyComplex(PyObject *obj){
@@ -95,25 +92,13 @@ static void AsComplexPyComplex(PyObject *obj, double *re, double *im){
 	}
 }
 static PyObject *FromIntPyDefInt(int i){
-#if PY_MAJOR_VERSION < 3
 	return PyLong_FromLong(i);
-#else
-	return PyLong_FromLong(i);
-#endif
 }
 static int CheckPyLong(PyObject *obj){
-#if PY_MAJOR_VERSION < 3
 	return PyLong_Check(obj);
-#else
-	return PyLong_Check(obj);
-#endif
 }
 static long GetPyLong(PyObject *obj){
-#if PY_MAJOR_VERSION < 3
 	return PyLong_AsLong(obj);
-#else
-	return PyLong_AsLong(obj);
-#endif
 }
 
 void HandleSolutionErrorCode(const char *fname, int code){
@@ -172,12 +157,8 @@ struct module_state {
     PyObject *error;
 };
 
-#if PY_MAJOR_VERSION >= 3
 #define GETSTATE(m) ((struct module_state*)PyModule_GetState(m))
-#else
-#define GETSTATE(m) (&_state)
-static struct module_state _state;
-#endif
+
 
 typedef struct{
 	PyObject_HEAD
@@ -692,17 +673,6 @@ static PyObject *S4Sim_SaveSolution(S4Sim *self, PyObject *args, PyObject *kwds)
 	Py_RETURN_NONE;
 }
 
-static PyObject *S4Sim_ConvertUnits(S4Sim *self, PyObject *args)
-{
-	double value;
-	const char *from_units = NULL;
-	const char *to_units = NULL;
-	if(!PyArg_ParseTuple(args, "dss", &value, from_units, to_units))
-		return NULL;
-	if(0 == convert_units(&value, from_units, to_units))
-		return Py_BuildValue("d", value);
-	return NULL;
-}
 
 static PyObject *S4Sim_SetMaterial(S4Sim *self, PyObject *args, PyObject *kwds){
 	static char *kwlist[] = { "Name", "Epsilon", NULL };
@@ -1994,29 +1964,11 @@ static PyMethodDef S4Sim_methods[] = {
 	{"GetStressTensorIntegral"	, (PyCFunction)S4Sim_GetStressTensorIntegral, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("GetStressTensorIntegral(layer,zoffset) -> Complex")},
 	{"GetLayerVolumeIntegral"	, (PyCFunction)S4Sim_GetLayerVolumeIntegral, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("GetLayerVolumeIntegral(layer,which) -> Complex")},
 	{"GetLayerZIntegral"		, (PyCFunction)S4Sim_GetLayerZIntegral, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("GetLayerZIntegral(layer,which,pos) -> Complex")},
-	/*
-	{"GetEField"				, (PyCFunction)S4Sim_GetEField, METH_VARARGS, PyDoc_STR("GetEField(x,y,z) -> (Tuple)")},
-	{"GetHField"				, (PyCFunction)S4Sim_GetHField, METH_VARARGS, PyDoc_STR("GetHField(x,y,z) -> (Tuple)")},
-	*/
 	{"GetFields"				, (PyCFunction)S4Sim_GetFields, METH_VARARGS, PyDoc_STR("GetFields(x,y,z) -> (Tuple,Tuple)")},
 	{"GetFieldsOnGrid"			, (PyCFunction)S4Sim_GetFieldsOnGrid, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("GetFieldsOnGrid(z,nsamples,format,filename) -> Tuple")},
 	{"GetFieldsOnGridNumpy"	    , (PyCFunction)S4Sim_GetFieldsOnGridNumpy, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("GetFieldsOnGrid(z,nsamples) -> np.ndarray")},
 	{"GetSMatrixDeterminant"	, (PyCFunction)S4Sim_GetSMatrixDeterminant, METH_NOARGS, PyDoc_STR("GetSMatrixDeterminant() -> Tuple")},
-	/*
-	{"GetDiffractionOrder"		, (PyCFunction)S4Sim_GetDiffractionOrder, METH_VARARGS, PyDoc_STR("GetDiffractionOrder(m,n) -> order")},
-	*/
 	{"SetOptions"				, (PyCFunction)S4Sim_SetOptions, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("SetOptions() -> None")},
-	{"GetPoyntingFlux"			, (PyCFunction)S4Sim_GetPowerFlux, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("GetPoyntingFlux(layer,zoffset) -> (forw, back)")},
-	{"GetPoyntingFluxByOrder"	, (PyCFunction)S4Sim_GetPowerFluxByOrder, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("GetPoyntingFluxByOrder(layer,zoffset) -> Tuple")},
-	/*
-	{"GetGList"					, (PyCFunction)S4Sim_GetGList, METH_VARARGS, PyDoc_STR("GetGList() -> Tuple")},
-	{"GetNumG"					, (PyCFunction)S4Sim_GetNumG, METH_VARARGS, PyDoc_STR("GetNumG() -> G num")},
-	*/
-	/*options*/
-	/*
-	{"SetBasisFieldDumpPrefix"	, (PyCFunction)S4Sim_SetBasisFieldDumpPrefix, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("SetBasisFieldDumpPrefix(prefix) -> None")},
-	{"SetLatticeTruncation"		, (PyCFunction)S4Sim_SetLatticeTruncation, METH_VARARGS | METH_KEYWORDS, PyDoc_STR("SetLatticeTruncation(Trunc) -> NOne")},
-	*/
 	{NULL, NULL}
 };
 
@@ -2188,7 +2140,6 @@ static PyMethodDef S4_funcs[] = {
 /* Initialization function for the module (*must* be called PyInit_FunctionSampler1D) */
 PyDoc_STRVAR(module_doc, "Stanford Stratified Structure Solver (S4): Fourier Modal Method.");
 
-#if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef S4_module = {
 	PyModuleDef_HEAD_INIT,
 	"S4",
@@ -2201,11 +2152,7 @@ static struct PyModuleDef S4_module = {
 	NULL
 };
 #define INITERROR return NULL
-PyObject * PyInit_S4(void)
-#else
-#define INITERROR return
-PyMODINIT_FUNC initS4(void)
-#endif
+PyMODINIT_FUNC PyInit_S4(void)
 {
 	PyObject *m = NULL;
 
@@ -2218,11 +2165,7 @@ PyMODINIT_FUNC initS4(void)
 	if(PyType_Ready(&S4SpectrumSampler_Type) < 0){ INITERROR; }
 
 	/* Create the module and add the functions */
-#if PY_MAJOR_VERSION >= 3
 	m = PyModule_Create(&S4_module);
-#else
-	m = Py_InitModule3("S4", S4_funcs, module_doc);
-#endif
 	if(m == NULL){ INITERROR; }
     // Need to import numpy C API here
     import_array();
@@ -2237,9 +2180,7 @@ PyMODINIT_FUNC initS4(void)
 	Py_INCREF(st->error);
 	PyModule_AddObject(m, "Error", st->error);
 
-#if PY_MAJOR_VERSION >= 3
 	return m;
-#endif
 }
 
 #ifdef __cplusplus

@@ -2,37 +2,42 @@
 Simple example
 --------------
 
-Almost the simplest example. a simple planewave travelling through vacuum
+Almost the simplest example: a simple plane wave travelling through vacuum
 """
 
 import sys
-
+import matplotlib.pyplot as plt
 import numpy as np
+from pys4 import Simulation
 
-import S4
+# 1D lattice
+simu = Simulation(((1, 0), (0, 1)), 1)
+vacuum = simu.Material("Vacuum", 1)
 
-S = S4.New(((1, 0), (0, 1)), 1)  # 1D lattice
-
-S.AddMaterial("Vacuum", 1)
-
-S.AddLayer("Front", 0, "Vacuum")  # name  # thickness  # background material
-S.AddLayerCopy("Back", 0, "Front")  # new layer name  # thickness  # layer to copy
-
-S.SetExcitationPlanewave(
-    (
-        0,
-        0,
-    ),  # incidence angles (spherical coordinates. phi in [0,180], theta in [0,360])
-    1,  # s-polarization amplitude and phase (in degrees)
-    0,
-)  # p-polarization amplitude and phase
+front = simu.Layer("Front", 0, vacuum)  # name  # thickness  # background material
+back = front.copy("Back", 0)  # new layer name  # thickness
 
 if len(sys.argv) <= 1:
-    S.SetFrequency(0.5)
+    f = 0.5
 else:
-    S.SetFrequency(sys.argv[1])
+    f = float(sys.argv[1])
+pw = simu.PlaneWave(f, (0, 0), (1, 0))
 
-for z in np.arange(-2, 2, 0.1):
-    print(S.GetFields(0, 0, z))
-    print(S.GetPoyntingFlux("Front", z))
-    print(S.GetPoyntingFlux("Back", z))
+wave = []
+zs = np.arange(-2, 2, 0.1)
+for z in zs:
+    wave.append(simu.get_fields(0, 0, z))
+    print(front.get_power_flux(z))
+    print(back.get_power_flux(z))
+
+wave = np.array(wave)
+
+plt.plot(zs, wave[:, 0, 0].real, label="Ex")
+plt.plot(zs, wave[:, 0, 1].real, label="Ey")
+plt.plot(zs, wave[:, 0, 2].real, label="Ez")
+plt.plot(zs, wave[:, 1, 0].real, label="Hx")
+plt.plot(zs, wave[:, 1, 1].real, label="Hy")
+plt.plot(zs, wave[:, 1, 2].real, label="Hz")
+plt.xlabel("z")
+
+plt.legend()

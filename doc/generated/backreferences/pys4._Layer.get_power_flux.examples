@@ -1,0 +1,42 @@
+
+
+Examples using ``pys4._Layer.get_power_flux``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Duplicates Table 1, M2G2 structure, in &quot;Multilayer films composed of periodic magneto-optical and dielectric layers for use as Faraday rotators&quot; S. Sakaguchi and N. Sugimoto Optics Communications 162, p. 64-70 (1999)">
+
+.. only:: html
+
+  .. image:: /examples/Sakaguchi_OptComm_162_64_1999/images/thumb/sphx_glr_plot_table1m2g2_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_Sakaguchi_OptComm_162_64_1999_plot_table1m2g2.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Magneto-optical and dielectric multilayer</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_examples_Sakaguchi_OptComm_162_64_1999_plot_table1m2g2.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+
