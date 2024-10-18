@@ -13,3 +13,4 @@ wheelhouse
 htmlcov
 .coverage
 .pytest_cache
+*__pycache__
