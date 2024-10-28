@@ -21,7 +21,7 @@ jobs:
           sudo apt-get update && sudo apt-get install -y --no-install-recommends  \
           gcc g++ pkg-config cmake \
           libsuitesparse-dev liblapack-dev libopenblas-dev libfftw3-dev mpich \
-          libboost-all-dev imagemagick povray
+          libboost-serialization-dev libboost-mpi-dev imagemagick povray ghostscript 
       - name: Install Python
         uses: actions/setup-python@v5
         with:

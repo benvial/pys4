@@ -91,7 +91,7 @@ class _Layer:
             subprocess.check_call(args)
         except FileNotFoundError:
             args = ["convert", filename, filename_png]
-        subprocess.call(args)
+        subprocess.check_call(args)
         img = plt.imread(filename_png)
         plt.imshow(img)
         plt.title(self.name)
