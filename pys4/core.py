@@ -89,7 +89,7 @@ class _Layer:
         args = ["magick", filename, filename_png]
         try:
             subprocess.check_call(args)
-        except subprocess.CalledProcessError:
+        except FileNotFoundError:
             args = ["convert", filename, filename_png]
         subprocess.call(args)
         img = plt.imread(filename_png)
