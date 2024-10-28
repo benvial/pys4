@@ -1,0 +1,10 @@
+Using pip 24.2 from /home/bench/prg/mambaforge/envs/oslumen/lib/python3.11/site-packages/pip (python 3.11)
+Processing /home/bench/dev/oslumen/contrib/fmm/pys4
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Installing backend dependencies: started
+  Installing backend dependencies: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'

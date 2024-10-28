@@ -2,7 +2,7 @@ name: pys4
 channels:
   - conda-forge
 dependencies:
-  - python>=3.8
+  - python>=3.9
   - pip
   - numpy
   - suitesparse 
@@ -11,3 +11,6 @@ dependencies:
   - boost 
   - fftw 
   - cxx-compiler
+  - c-compiler
+  - imagemagick
+  - povray

@@ -26,12 +26,11 @@ def test_api():
     mat1 = simu.Material("whatever", 13.0)
     si = simu.Material("silicon", 7.0 - 0.1j)
 
+    sub = simu.Layer("substrate", mat1, 0.1)
 
-    sub = simu.Layer("substrate", 0.1, mat1)
-
-    lay0 = simu.Layer("Layer0", 1, mat)
+    lay0 = simu.Layer("Layer0", mat, 1)
     lay0.add_circle(si, 0.4)
-    lay1 = simu.Layer("Layer1", 1, mat)
+    lay1 = simu.Layer("Layer1", mat, 1)
     lay1.add_square(si, 0.33)
 
     x, y = (np.linspace(-0.5, 0.5, 100), np.linspace(-0.5, 0.5, 100))
@@ -43,9 +42,8 @@ def test_api():
         plt.colorbar()
         plt.title(rf"$z=${z}")
 
-
     lay1_copy = lay0.copy("Layer1copy", 2)
-    lay2 = simu.Layer("Layer2", 1, si)
+    lay2 = simu.Layer("Layer2", si, 1)
 
     lay2.thickness = 2
 
@@ -65,23 +63,20 @@ def test_api():
 
     pw = simu.PlaneWave(0.6, (10, 30), sp_amplitudes=(1, 0), order=0)
 
-
     rl = simu.reciprocal_lattice()
     eps = simu.get_epsilon(0.0, 0.0, 0.2)
-
 
     # table = (( 1, 'x', ( 1, 0.1)),)
     # out = simu._S4_simu.SetExcitationExterior(table)
 
-
     plt.figure()
     lay2.show()
 
-    import tempfile
+    import tempfile, os
+
     tmpdir = tempfile.mkdtemp()
     filename = os.path.join(tmpdir, "tmp.pov")
     simu.save_povray(filename)
-
 
     # -------  output needed --------------
 
@@ -95,7 +90,6 @@ def test_api():
     simu.get_basis_set()
     assert simu.get_num_basis() == simu.num_basis_actual
 
-
     simu.get_fields(0, 0, 1)
 
     z = 1
@@ -105,30 +99,24 @@ def test_api():
     plt.imshow(E[:, :, 0].real)
     plt.title(rf"$E_x, z=${z}")
 
-
     det = simu.get_s_matrix_determinant()
-            
+
     simu.save_solution("test.sln")
     simu.load_solution("test.sln")
 
-
     simu_copy = simu.copy()
-
-
 
     def f(x):
         return np.sin(1 / (x * x + 0.05))
 
-
-    sampler = SpectrumSampler(1, 2,parallelize=False)
-
+    sampler = SpectrumSampler(1, 2, parallelize=False)
 
     while not sampler.is_done():
         x = sampler.get_frequency()
         y = f(x)
         sampler.submit_result(y)
 
-    sampler = SpectrumSampler(1, 2,parallelize=True)
+    sampler = SpectrumSampler(1, 2, parallelize=True)
 
     spec = sampler.get_spectrum()
 
@@ -140,4 +128,4 @@ def test_api():
         y = tuple(y)
         sampler.submit_results(y)
 
-    spec = sampler.get_spectrum()   
+    spec = sampler.get_spectrum()

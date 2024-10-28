@@ -1,55 +1,59 @@
-name: Test Conda
-run-name: Test Conda
+name: Test
+run-name: ${{ github.repository }} testing
 on: [push]
 jobs:
-  test:
-    name: test Mamba
-    runs-on: "ubuntu-latest"
-    steps:
-      - uses: actions/checkout@v4
-      # - uses: conda-incubator/setup-miniconda@v3
-      #   with:
-      #     python-version: 3.12
-      #     mamba-version: "*"
-      #     channels: conda-forge,defaults
-      #     channel-priority: true
-      #     activate-environment: anaconda-client-env
-      #     environment-file: environment.yml
-      # - shell: bash -el {0}
-      #   run: |
-      #     conda info
-      #     conda list
-      #     conda config --show-sources
-      #     conda config --show
-      #     printenv | sort
-      # - shell: bash -el {0}
-      #   run: |
-      #     pip install .
-      #     make check
-      #     pip install pytest
-      #     make test
-  build_wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  install-and-test:
+    name: system (${{ matrix.python-version }}, ${{ matrix.os }})
     strategy:
       matrix:
-        os: [ubuntu-20.04]
-        #, windows-2019, macos-11]
-
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+        os: [ubuntu-latest] #, windows-latest
+    runs-on: ${{ matrix.os }}
+    env:
+      OPENBLAS_NUM_THREADS: 1
+      OMP_NUM_THREADS: 1
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.16.5
-        # env:
-        #   CIBW_SOME_OPTION: value
-        #    ...
-        # with:
-        #   package-dir: .
-        #   output-dir: wheelhouse
-        #   config-file: "{package}/pyproject.toml"
-
-      - uses: actions/upload-artifact@v4
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install system packages
+        if: matrix.os == 'ubuntu-24.04'
+        run: |
+          sudo apt-get update && sudo apt-get install -y --no-install-recommends  \
+          gcc g++ pkg-config cmake \
+          libsuitesparse-dev liblapack-dev libopenblas-dev libfftw3-dev mpich \
+          libboost-all-dev imagemagick povray
+      - name: Install Python
+        uses: actions/setup-python@v5
         with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ./wheelhouse/*.whl
+          python-version: ${{ matrix.python-version }}
+      - name: Install package and run tests
+        run: |
+          pip install .[test] -v
+          pytest
+
+  install-and-test-conda:
+    name: conda (${{ matrix.python-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+    env:
+      OPENBLAS_NUM_THREADS: 1
+      OMP_NUM_THREADS: 1
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Install conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+      - name: Install package and run tests
+        shell: bash -el {0}
+        run: |
+          mamba create -n pys4 python=${{ matrix.python-version }}
+          mamba env update -n pys4 -f environment.yml
+          mamba activate pys4
+          pip install .[test] -v
+          pytest

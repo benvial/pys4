@@ -54,7 +54,7 @@ test:
 
 
 install:
-    pip install . --no-build-isolation
+    pip install .
 
 install-edit:
     pip install -e . --no-build-isolation

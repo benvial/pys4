@@ -5,7 +5,7 @@
 # License: GPLv3
 
 
-import importlib_metadata as metadata
+import importlib.metadata as metadata
 
 
 def get_meta(metadata):

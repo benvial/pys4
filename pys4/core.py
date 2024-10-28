@@ -25,7 +25,7 @@ class _Material:
 
 
 class _Layer:
-    def __init__(self, name, thickness, material, _S4_simu, layers_dict, init=True):
+    def __init__(self, name, material,thickness, _S4_simu, layers_dict, init=True):
         self.name = name
         self._thickness = thickness
         self.material = material
@@ -39,7 +39,7 @@ class _Layer:
         thickness = thickness if thickness is not None else self.thickness
         self._S4_simu.AddLayerCopy(name, thickness, self.name)
         return _Layer(
-            name, thickness, self.material, self._S4_simu, self.layers_dict, init=False
+            name, self.material, thickness, self._S4_simu, self.layers_dict, init=False
         )
 
     @property
@@ -87,6 +87,10 @@ class _Layer:
         self.save_ps(filename)
         filename_png = os.path.join(tmpdir, "tmpimg.png")
         args = ["magick", filename, filename_png]
+        try:
+            subprocess.check_call(args)
+        except subprocess.CalledProcessError:
+            args = ["convert", filename, filename_png]
         subprocess.call(args)
         img = plt.imread(filename_png)
         plt.imshow(img)
@@ -264,7 +268,7 @@ class Simulation:
         return _Material(name, epsilon, self._S4_simu)
 
     def Layer(self, name, material, thickness=0):
-        return _Layer(name, thickness, material, self._S4_simu, self.layers)
+        return _Layer(name, material, thickness, self._S4_simu, self.layers)
 
     def PlaneWave(self, frequency, angles, sp_amplitudes=(1, 0), order=0):
         return _PlaneWave(frequency, angles, sp_amplitudes, order, self._S4_simu)
@@ -387,4 +391,3 @@ class SpectrumSampler:
 
     def get_spectrum(self):
         return self._sampler.GetSpectrum()
-
