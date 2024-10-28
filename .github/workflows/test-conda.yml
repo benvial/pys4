@@ -7,7 +7,7 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.9', '3.10', '3.11', '3.12']
-        os: [ubuntu-latest] #, windows-latest
+        os: [ubuntu-24.04] #, windows-latest
     runs-on: ${{ matrix.os }}
     env:
       OPENBLAS_NUM_THREADS: 1
