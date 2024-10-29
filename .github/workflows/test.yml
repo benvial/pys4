@@ -52,8 +52,8 @@ jobs:
       - name: Install package and run tests
         shell: bash -el {0}
         run: |
-          mamba create -n pys4 python=${{ matrix.python-version }}
+          mamba create -n pys4 python=${{ matrix.python-version }} -c conda-forge
           mamba env update -n pys4 -f environment.yml
-          mamba activate pys4
-          pip install .[test] -v
+          conda activate pys4
+          pip install .[test] -v -Csetup-args="-Dconda=true"
           pytest
