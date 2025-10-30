@@ -12,6 +12,13 @@ dependencies:
   - fftw 
   - cxx-compiler
   - c-compiler
+  - libfabric
+  - libfabric-devel
   - imagemagick
   - povray
   - ghostscript
+  - ninja
+  - meson
+  - meson-python
+  - pkg-config
+

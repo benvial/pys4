@@ -96,15 +96,15 @@ class _Layer:
         plt.imshow(img)
         plt.title(self.name)
 
-    def get_amplitudes(self, z):
+    def get_amplitudes(self, z=0):
         return self._S4_simu.GetAmplitudes(Layer=self.name, zOffset=z)
 
-    def get_power_flux(self, z, order=False):
+    def get_power_flux(self, z=0, order=False):
         if order:
             return self._S4_simu.GetPowerFluxByOrder(Layer=self.name, zOffset=z)
         return self._S4_simu.GetPowerFlux(Layer=self.name, zOffset=z)
 
-    def get_stress_tensor_integral(self, z):
+    def get_stress_tensor_integral(self, z=0):
         return self._S4_simu.GetStressTensorIntegral(Layer=self.name, zOffset=z)
 
     def get_layer_volume_integral(self, quantity):

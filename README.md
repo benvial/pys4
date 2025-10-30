@@ -19,13 +19,6 @@ See information about the original package in `src`, on the [webpage](http://fan
 The easiest way to get all the dependencies is to create a `conda` environment.
 
 ```bash
-mamba create --name pys4
-mamba activate pys4
-mamba install python pip numpy suitesparse openblas mpich boost fftw cxx-compiler
-```
-or alternatively using a file:
-
-```bash
 mamba env create -f environment.yml
 conda activate pys4
 ```
@@ -33,25 +26,12 @@ conda activate pys4
 and then pip install `pys4`:
 
 ```bash
-pip install .
+pip install . -Csetup-args="-Dconda=true"
 ```
 
-Optionally, check the installation:
-
+or in editable mode
 
 ```bash
-make check
+pip install -e . -Csetup-args="-Dconda=true" --no-build-isolation
 ```
 
-and run the tests:
-
-```bash
-make test
-```
-
-
-## Usage
-
-```python
-from pys4 import S4
-```

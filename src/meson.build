@@ -1,7 +1,8 @@
 
 # Link flags
 lflags = ['-llapack', '-lblas', '-lfftw3', '-lpthread', '-lcholmod', 
-        '-lamd', '-lcolamd', '-lcamd', '-lccolamd', '-lmpi', '-lboost_serialization']
+        '-lamd', '-lcolamd', '-lcamd', '-lccolamd', '-lmpi',
+        '-lboost_serialization', '-lfabric']
 
 # Compiler-specific options
 cflags = ['-Wall', '-O3', '-m64', '-march=native', '-mtune=native', 

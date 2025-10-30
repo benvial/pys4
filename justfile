@@ -14,6 +14,10 @@ version:
 doc:
     cd doc && make html
 
+
+doc-noplot:
+    cd doc && make html-noplot
+
 show:
     firefox doc/build/html/index.html
 
@@ -22,6 +26,8 @@ clean:
     rm -rf builddir build .coverage *.egg-info doc/build .pytest_cache \
     htmlcov .ruff_cache wheelhouse builddir dist
     cd examples && rm -rf  *.txt *.log *.npz *.png *.pdf *.csv
+
+cleandoc:
     cd doc && make clean
 
 

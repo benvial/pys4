@@ -1,29 +1,28 @@
 [build-system]
 build-backend = 'mesonpy'
-requires = ['meson-python',"numpy>=1.22"]
+requires = ['meson-python>=0.14',"numpy>=1.22"]
 
 [project]
 name = "pys4"
 version = "0.0.1"
 description = "Python frontend for S4"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { file = "LICENSE.txt" }
 keywords = ["photonics"]
 authors = [{ email = "contact@pys4.io" }, { name = "The pys4 Developers" }]
 classifiers = [
   "Development Status :: 1 - Planning",
-  "Programming Language :: Python",
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Scientific/Engineering",
   "Topic :: Scientific/Engineering :: Physics",
   "Topic :: Scientific/Engineering :: Mathematics",
@@ -32,6 +31,7 @@ classifiers = [
 dependencies = ["numpy>=1.22","matplotlib"]
 
 [tool.setuptools]
+package-dir = {"" = "python"}
 packages = ["pys4"]
 
 
@@ -60,6 +60,9 @@ all = ["pys4[test,doc,dev]"]
 
 [tool.pytest.ini_options]
 addopts = "test --cov=pys4 --cov-report html --cov-report term"
+
+
+
 
 # [tool.ruff]
 # # Set the maximum line length to 79.
