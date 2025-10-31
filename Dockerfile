@@ -5,7 +5,7 @@ ENV OPENBLAS_NUM_THREADS=1
 ENV OMP_NUM_THREADS=1
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-full python3-pip python3-dev gcc g++ pkg-config cmake \
-    libsuitesparse-dev liblapack-dev libopenblas-dev libfftw3-dev mpich \
+    libsuitesparse-dev liblapack-dev libopenblas-dev libfftw3-dev mpich libfabric-dev \
     libboost-serialization-dev libboost-mpi-dev imagemagick povray ghostscript &&  \
     rm -rf /var/lib/apt /var/lib/dpkg /var/lib/cache /var/lib/log
 

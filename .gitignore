@@ -5,7 +5,10 @@ src/build
 build
 src/setup.py
 doc/build
+doc/generated
+doc/api
 doc/examples
+doc/sg_execution_times.rst
 pys4.egg-info
 dist
 *.egg-info
