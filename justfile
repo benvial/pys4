@@ -17,7 +17,7 @@ clean:
     cd examples && rm -rf  *.txt *.log *.npz *.png *.pdf *.csv
 
 cleandoc:
-    cd doc && make clean
+    cd doc && just clean
 
 
 set:
@@ -84,3 +84,5 @@ autodoc:
 show:
     firefox doc/build/html/index.html
 
+api:
+    cd doc && just api

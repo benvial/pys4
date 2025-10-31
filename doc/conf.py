@@ -1,15 +1,38 @@
-
-
-
-
 import pys4
 
 extensions = [
-    "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.todo",
     "sphinx_gallery.gen_gallery",
+    "sphinx_copybutton",
+    "sphinx.ext.napoleon",
 ]
+
+# autoapi_type = "python"
+# autoapi_dirs = ["../python/pys4"]
+# autoapi_options = [
+#     "members",
+#     "show-module-summary",
+#     "special-members",
+#     "undoc-members",
+#     "private-members",
+#     # "inherited-members",
+#     "show-inheritance",
+#     # "show-inheritance-diagram",
+# ]
+# # autoapi_python_use_implicit_namespaces = False
+# autoapi_root = "api"    
+
+
+# autoapi_ignore = ["*_core.py"]  # don't create a page for _core
+# # autoapi_add_toctree_entry = False
+
+# Napoleon (for NumPy/Google style docstrings)
+napoleon_google_docstring = True
+napoleon_numpy_docstring = True
+
+
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -90,19 +113,26 @@ html_theme_options = {
     "light_css_variables": {
         "color-brand-primary": "#33916f",
         "color-brand-content": "#33916f",
+        "color-brand-visited": "#33916f",
         "color-background-primary": "white",
         "color-background-secondary": "#eaf0ea",
-        # "font-stack--monospace": "Anonymous Pro, monospace",
-        # "font-stack": "Karla, sans-serif",
         "color-code-background": "#f5f5f5",
         "color-highlight-on-target": "unset",
         "color-sidebar-item-background--hover": "#c0d8cf",
+        "color-api-pre-name": "#e7962b",
+        "color-api-name": "#e7962b",
     },
     "dark_css_variables": {
         "color-brand-primary": "#33916f",
         "color-brand-content": "#33916f",
+        "color-brand-visited": "#33916f",
         "color-background-primary": "#161713",
         "color-background-secondary": "#272822",
+        "color-code-background": "#2f2d2d",
+        "color-highlight-on-target": "unset",
+        "color-sidebar-item-background--hover": "#c0d8cf",
+        "color-api-pre-name": "#e7962b",
+        "color-api-name": "#e7962b",
     },
 }
 pygments_style = "trac"

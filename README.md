@@ -1,5 +1,9 @@
 
 
+
+![Codecov (with branch)](https://img.shields.io/codecov/c/github/benvial/pys4/main?style=for-the-badge&logo=codecov&logoColor=white)
+
+
 # pys4
 
 `pys4` is a thin layer on top of the `S4` library as an attempt to simplify the installation and use of `S4` as a Python package. 

@@ -2,14 +2,19 @@
 
 clean:
     make clean
-    rm -rf autoapi tutorials examples generated reference _build sg_execution_times.rst 
+    rm -rf  api tutorials examples generated reference build sg_execution_times.rst 
 
-build:
+build: 
     make html
 
-build-noplot:
+build-noplot: api
     make html-noplot
 
-autobuild:
-    sphinx-autobuild . _build/html --port 8001 --re-ignore=['examples/*','tutorials/*','generated/*']
+autobuild: 
+    sphinx-autobuild . build/html --port 8001 --re-ignore=['examples/*','tutorials/*','generated/*']
 
+
+# Generate documentation api
+api:
+    rm -rf api/         
+    sphinx-apidoc -o api ../python/pys4 -f --implicit-namespaces --module-first

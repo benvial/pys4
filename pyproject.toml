@@ -51,6 +51,7 @@ doc = [
   "sphinx-gallery",
   "sphinx-copybutton",
   "memory_profiler",
+  "sphinx-autoapi",
 ]
 dev = ["ruff", "meson-python", "ninja"]
 all = ["pys4[test,doc,dev]"]

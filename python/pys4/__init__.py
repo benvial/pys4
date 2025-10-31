@@ -5,10 +5,9 @@
 # License: GPLv3
 
 """
-The pyS4 package for simulating electromagnetic waves in periodic structures.
+The pys4 package for simulating electromagnetic waves in periodic structures.
 """
 
-__all__ = ["Simulation", "SpectrumSampler"]
 
 from . import _S4
 from .__about__ import __author__, __description__, __version__
@@ -18,3 +17,5 @@ _S4.__version__ = "1.1"
 _S4.__description__ = _S4.__doc__
 _S4.__author__ = "Victor Liu"
 _S4.__email__ = "victorliu@alumni.stanford.edu"
+
+__all__ = ["Material", "Layer", "PlaneWave", "Simulation", "SpectrumSampler"]

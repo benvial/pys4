@@ -32,6 +32,7 @@ Documentation Contents
    :maxdepth: 2
    
    install
+   api/pys4.rst
    tutorial
    examples/index
    python_api
