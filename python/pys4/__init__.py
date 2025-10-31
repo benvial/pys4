@@ -4,13 +4,17 @@
 # This file is part of pyS4
 # License: GPLv3
 
+"""
+The pyS4 package for simulating electromagnetic waves in periodic structures.
+"""
 
+__all__ = ["Simulation", "SpectrumSampler"]
 
-from . import S4
+from . import _S4
 from .__about__ import __author__, __description__, __version__
-from .core import *
+from ._core import *
 
-S4.__version__ = "1.1"
-S4.__description__ = S4.__doc__
-S4.__author__ = "Victor Liu"
-S4.__email__ = "victorliu@alumni.stanford.edu"
+_S4.__version__ = "1.1"
+_S4.__description__ = _S4.__doc__
+_S4.__author__ = "Victor Liu"
+_S4.__email__ = "victorliu@alumni.stanford.edu"

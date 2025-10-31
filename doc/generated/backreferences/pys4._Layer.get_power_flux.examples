@@ -1,7 +1,7 @@
 
 
-Examples using ``pys4.Simulation``
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Examples using ``pys4._Layer.get_power_flux``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 .. start-sphx-glr-thumbnails

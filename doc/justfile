@@ -1,0 +1,15 @@
+
+
+clean:
+    make clean
+    rm -rf autoapi tutorials examples generated reference _build sg_execution_times.rst 
+
+build:
+    make html
+
+build-noplot:
+    make html-noplot
+
+autobuild:
+    sphinx-autobuild . _build/html --port 8001 --re-ignore=['examples/*','tutorials/*','generated/*']
+

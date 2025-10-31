@@ -2266,7 +2266,7 @@ extern "C"
 		NULL,
 		NULL};
 #define INITERROR return NULL
-	PyMODINIT_FUNC PyInit_S4(void)
+	PyMODINIT_FUNC PyInit__S4(void)
 	{
 		PyObject *m = NULL;
 

@@ -14,7 +14,7 @@ from pys4 import Simulation
 simu = Simulation(((1, 0), (0, 1)), 1)
 vacuum = simu.Material("Vacuum", 1)
 
-front = simu.Layer("Front", 0, vacuum)  # name  # thickness  # background material
+front = simu.Layer("Front", vacuum, 0)  # name  # background material # thickness  
 back = front.copy("Back", 0)  # new layer name  # thickness
 
 if len(sys.argv) <= 1:

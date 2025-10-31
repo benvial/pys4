@@ -29,8 +29,13 @@ jobs:
       - name: Install package and run tests
         run: |
           pip install .[test] -v
-          pytest
-
+          pytest --cov-report=xml:coverage.xml
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
+          
   install-and-test-conda:
     name: conda (${{ matrix.python-version }}, ${{ matrix.os }})
     runs-on: ${{ matrix.os }}

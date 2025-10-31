@@ -34,6 +34,7 @@ def simulation(ng, formulation):
     slab.add_circle(material=dielectric, radius=0.25)
     substrate = simu.Layer(name="Substrate", thickness=0, material=dielectric)
     simu.PlaneWave(frequency=2.0000001, angles=(30, 30), sp_amplitudes=(0, 1))
+    simu.discretized_epsilon = True
     simu.polarization_decomposition = True
     if formulation == "new":
         simu.polarization_basis = "default"
@@ -46,11 +47,15 @@ def simulation(ng, formulation):
     return simu
 
 
+
+
+
 ##########################################################
 # Convergence for the different methods
 
 ngs = range(41, 401, 40)
-formulations = ["original", "new", "normal", "jones"]
+ngs = range(80, 220, 40)
+formulations = ["original", "new"]#, "normal", "jones"]
 results = dict()
 truncation = dict()
 

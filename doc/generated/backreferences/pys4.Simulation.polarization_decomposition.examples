@@ -1,0 +1,84 @@
+
+
+Examples using ``pys4.Simulation.polarization_decomposition``
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+.. start-sphx-glr-thumbnails
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+.. thumbnail-parent-div-open
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example 1A in  Lifeng Li,  &quot;New formulation of the Fourier modal method for crossed surface-relief gratings&quot;  Journal of the Optical Society of America A, Vol. 14, No. 10, p. 2758 (1997) This is Fig. 6">
+
+.. only:: html
+
+  .. image:: /examples/Li_JOSA_14_2758_1997/images/thumb/sphx_glr_plot_example1_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example1.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Checkerboard grating</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example1.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example 1A in  Lifeng Li,  &quot;New formulation of the Fourier modal method for crossed surface-relief gratings&quot;  Journal of the Optical Society of America A, Vol. 14, No. 10, p. 2758 (1997) This is Fig. 7">
+
+.. only:: html
+
+  .. image:: /examples/Li_JOSA_14_2758_1997/images/thumb/sphx_glr_plot_example2_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example2.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Circular pillar grating</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example2.py`
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example 1A in  Lifeng Li,  &quot;New formulation of the Fourier modal method for crossed surface-relief gratings&quot;  Journal of the Optical Society of America A, Vol. 14, No. 10, p. 2758 (1997) This is Fig. 10">
+
+.. only:: html
+
+  .. image:: /examples/Li_JOSA_14_2758_1997/images/thumb/sphx_glr_plot_example3_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example3.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Metallic grating</div>
+    </div>
+
+
+.. only:: not html
+
+ * :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example3.py`
+
+.. thumbnail-parent-div-close
+
+.. raw:: html
+
+    </div>
+

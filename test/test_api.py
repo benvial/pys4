@@ -3,129 +3,165 @@
 # Author: Benjamin Vial
 # License: GPLv3
 
+import os
+import subprocess
+import tempfile
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pytest
 
 from pys4 import Simulation, SpectrumSampler
 
 
-def test_api():
-    import matplotlib.pyplot as plt
-    import numpy as np
-
-    ###### Simulation ######
+def test_api(monkeypatch):
+    """
+    Test the pys4 API functionality including simulation setup,
+    material and layer creation, geometric shapes, plane waves,
+    and spectrum sampling.
+    """
     plt.close("all")
 
-    # ------- no output needed --------------
+    # Simulation setup
+    sim = Simulation(((1, 0), (0, 1)), 51, verbosity=0)
 
-    simu = Simulation(((1, 0), (0, 1)), 51, verbosity=0)
+    air = sim.Material("air", 1.0)
+    substrate_material = sim.Material("whatever", 13.0)
+    silicon = sim.Material("silicon", 7.0 - 0.1j)
 
-    # simu.verbosity = 2
-    # simu._S4_simu.SetOptions(Verbosity=9)
-    # simu._S4_simu.SetOptions(ConserveMemory=True)
+    print(air)
 
-    mat = simu.Material("air", 1.0)
-    mat1 = simu.Material("whatever", 13.0)
-    si = simu.Material("silicon", 7.0 - 0.1j)
+    substrate = sim.Layer("substrate", substrate_material, 0.1)
+    layer0 = sim.Layer("Layer0", air, 1)
 
-    sub = simu.Layer("substrate", mat1, 0.1)
+    with pytest.raises(ValueError):
+        layer0.add_circle(silicon, -0.4)
+    layer0.add_circle(silicon, 0.4)
 
-    lay0 = simu.Layer("Layer0", mat, 1)
-    lay0.add_circle(si, 0.4)
-    lay1 = simu.Layer("Layer1", mat, 1)
-    lay1.add_square(si, 0.33)
+    layer1 = sim.Layer("Layer1", air, 1)
+    layer1.add_square(silicon, 0.33)
+    assert layer0.thickness == 1
+
+    print(layer0)
+
+    with pytest.raises(ValueError):
+        layer0.add_ellipse(silicon, 0.4)
+    layer0.add_ellipse(silicon, (0.1, 0.2))
+
+    with pytest.raises(ValueError):
+        layer0.add_rectangle(silicon, 0.4)
+
+    with pytest.raises(ValueError):
+        layer0_error = sim.Layer("Layer0", air, 1)
+
+    with pytest.raises(ValueError):
+        layer0_error = layer0.copy("Layer0")
 
     x, y = (np.linspace(-0.5, 0.5, 100), np.linspace(-0.5, 0.5, 100))
 
     for z in [0.5, 1.5]:
-        eps_map = simu.get_epsilon_slice(x, y, z)
+        eps_map = sim.get_epsilon_slice(x, y, z)
         plt.figure()
         plt.imshow(eps_map.real)
         plt.colorbar()
         plt.title(rf"$z=${z}")
 
-    lay1_copy = lay0.copy("Layer1copy", 2)
-    lay2 = simu.Layer("Layer2", si, 1)
+    layer1_copy = layer0.copy("Layer1copy", 2)
+    layer2 = sim.Layer("Layer2", silicon, 1)
+    layer2.thickness = 2
+    layer2.add_circle(silicon, 0.4)
+    layer2.clean()
+    layer2.add_rectangle(silicon, (0.5, 0.1), center=(-0.2, 0.2), angle=45)
+    layer2.add_square(silicon, 0.22, angle=45)
 
-    lay2.thickness = 2
-
-    lay2.add_circle(si, 0.4)
-
-    # plt.figure()
-    # lay2.show()
-
-    lay2.clean()
-    lay2.add_rectangle(si, (0.5, 0.1), center=(-0.2, 0.2), angle=45)
-    lay2.add_square(si, 0.22, angle=45)
+    with pytest.raises(ValueError):
+        layer2.add_square(silicon, -0.22, angle=45)
 
     vertices = ((0, 0), (0.2, 0), (0.2, 0.2), (0.1, 0.2), (0.1, 0.1), (0, 0.1))
-    lay2.add_polygon(si, vertices, center=(0.1, -0.3))
+    layer2.add_polygon(silicon, vertices, center=(0.1, -0.3))
 
-    lay2.get_propagation_constants()
+    with pytest.raises(ValueError):
+        layer2.add_polygon(silicon, vertices[:2])
 
-    pw = simu.PlaneWave(0.6, (10, 30), sp_amplitudes=(1, 0), order=0)
+    with pytest.raises(ValueError):
+        layer2.add_polygon(silicon, 2)
 
-    rl = simu.reciprocal_lattice()
-    eps = simu.get_epsilon(0.0, 0.0, 0.2)
+    layer2.get_propagation_constants()
 
-    # table = (( 1, 'x', ( 1, 0.1)),)
-    # out = simu._S4_simu.SetExcitationExterior(table)
+    plane_wave = sim.PlaneWave(0.6, (10, 30), sp_amplitudes=(1, 0), order=0)
+    print(plane_wave)
+    print(plane_wave.frequency)
+    plane_wave.frequency = 0.61
+
+    reciprocal_lattice = sim.reciprocal_lattice()
+    epsilon = sim.get_epsilon(0.0, 0.0, 0.2)
 
     plt.figure()
-    lay2.show()
-
-    import tempfile, os
+    layer2.show()
 
     tmpdir = tempfile.mkdtemp()
     filename = os.path.join(tmpdir, "tmp.pov")
-    simu.save_povray(filename)
+    sim.save_povray(filename)
 
-    # -------  output needed --------------
+    # Output computations
+    amplitudes = layer2.get_amplitudes(0.2)
+    layer2.get_power_flux(0.2, order=True)
+    layer2.get_power_flux(0.2, order=False)
+    layer2.get_stress_tensor_integral(z)
+    layer2.get_layer_volume_integral("U")
+    layer2.get_layer_z_integral(0, 0)
 
-    A = lay2.get_amplitudes(0.2)
-    lay2.get_power_flux(0.2, order=True)
-    lay2.get_power_flux(0.2, order=False)
-    lay2.get_stress_tensor_integral(z)
-    lay2.get_layer_volume_integral("U")
-    lay2.get_layer_z_integral(0, 0)
+    sim.get_basis_set()
+    assert sim.get_num_basis() == sim.num_basis_actual
 
-    simu.get_basis_set()
-    assert simu.get_num_basis() == simu.num_basis_actual
-
-    simu.get_fields(0, 0, 1)
+    sim.get_fields(0, 0, 1)
 
     z = 1
-    E, H = simu.get_fields_on_grid(z, (100, 100))
+    E, H = sim.get_fields_on_grid(z, (100, 100))
 
     plt.figure()
     plt.imshow(E[:, :, 0].real)
     plt.title(rf"$E_x, z=${z}")
 
-    det = simu.get_s_matrix_determinant()
+    det = sim.get_s_matrix_determinant()
 
-    simu.save_solution("test.sln")
-    simu.load_solution("test.sln")
+    sim.save_solution("test.sln")
+    sim.load_solution("test.sln")
 
-    simu_copy = simu.copy()
+    sim_copy = sim.copy()
 
-    def f(x):
+    def test_function(x):
         return np.sin(1 / (x * x + 0.05))
 
     sampler = SpectrumSampler(1, 2, parallelize=False)
+    print(sampler.is_parallelized())
+
+    with pytest.raises(ValueError):
+        sampler = SpectrumSampler(3, 2, parallelize=False)
 
     while not sampler.is_done():
-        x = sampler.get_frequency()
-        y = f(x)
-        sampler.submit_result(y)
+        freq = sampler.get_frequency()
+        result = test_function(freq)
+        sampler.submit_result(result)
 
     sampler = SpectrumSampler(1, 2, parallelize=True)
-
-    spec = sampler.get_spectrum()
+    spectrum = sampler.get_spectrum()
 
     while not sampler.is_done():
-        x = sampler.get_frequencies()
-        y = []
-        for _x in x:
-            y.append(f(_x))
-        y = tuple(y)
-        sampler.submit_results(y)
+        frequencies = sampler.get_frequencies()
+        results = []
+        for freq in frequencies:
+            results.append(test_function(freq))
+        results = tuple(results)
+        sampler.submit_results(results)
 
-    spec = sampler.get_spectrum()
+    spectrum = sampler.get_spectrum()
+
+    # Patch subprocess.check_call to always raise FileNotFoundError
+    def fake_check_call(*args, **kwargs):
+        raise FileNotFoundError()
+
+    monkeypatch.setattr(subprocess, "check_call", fake_check_call)
+
+    with pytest.raises(RuntimeError, match="Neither 'magick' nor 'convert' commands found"):
+        layer0.show()

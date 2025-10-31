@@ -5,10 +5,20 @@
 # License: GPLv3
 
 
+"""Package metadata."""
+
 import importlib.metadata as metadata
 
 
-def get_meta(metadata):
+def _get_metadata(metadata):
+    """
+    Get package metadata.
+
+    Returns
+    -------
+        tuple: A tuple of package metadata including version, author,
+            description, and a dictionary of additional metadata.
+    """
     try:
         data = metadata.metadata("pys4")
         __version__ = metadata.version("pys4")
@@ -22,4 +32,4 @@ def get_meta(metadata):
     return __version__, __author__, __description__, data
 
 
-__version__, __author__, __description__, data = get_meta(metadata)
+__version__, __author__, __description__, data = _get_metadata(metadata)

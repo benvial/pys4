@@ -28,7 +28,7 @@ subdir('pattern')
 subdir('kiss_fft')
 subdir('RNP')
 
-py.extension_module('S4',
+py.extension_module('_S4',
   'main_python.c',
   include_directories: include_directories,
   dependencies : dependencies,

@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.056** total execution time for 8 files **from all galleries**:
+**00:00.253** total execution time for 8 files **from all galleries**:
 
 .. container::
 
@@ -32,9 +32,9 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_examples_Sakaguchi_OptComm_162_64_1999_plot_table1m2g2.py` (``../examples/Sakaguchi_OptComm_162_64_1999/plot_table1m2g2.py``)
-     - 00:00.056
-     - 138.6
+   * - :ref:`sphx_glr_examples_simple_plot_simple.py` (``../examples/simple/plot_simple.py``)
+     - 00:00.253
+     - 127.4
    * - :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example1.py` (``../examples/Li_JOSA_14_2758_1997/plot_example1.py``)
      - 00:00.000
      - 0.0
@@ -44,6 +44,9 @@ Computation times
    * - :ref:`sphx_glr_examples_Li_JOSA_14_2758_1997_plot_example3.py` (``../examples/Li_JOSA_14_2758_1997/plot_example3.py``)
      - 00:00.000
      - 0.0
+   * - :ref:`sphx_glr_examples_Sakaguchi_OptComm_162_64_1999_plot_table1m2g2.py` (``../examples/Sakaguchi_OptComm_162_64_1999/plot_table1m2g2.py``)
+     - 00:00.000
+     - 0.0
    * - :ref:`sphx_glr_examples_Suh_APL_82_1999_2003_plot_fig2a.py` (``../examples/Suh_APL_82_1999_2003/plot_fig2a.py``)
      - 00:00.000
      - 0.0
@@ -51,8 +54,5 @@ Computation times
      - 00:00.000
      - 0.0
    * - :ref:`sphx_glr_examples_Tikhodeev_PRB_66_45102_2002_plot_fig4.py` (``../examples/Tikhodeev_PRB_66_45102_2002/plot_fig4.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_examples_simple_plot_simple.py` (``../examples/simple/plot_simple.py``)
      - 00:00.000
      - 0.0
